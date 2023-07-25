@@ -2,7 +2,10 @@ name: "Update Changelog"
 
 on:
   release:
-    types: [published]
+    types: [released]
+
+permissions:
+  contents: write
 
 jobs:
   update:
@@ -15,16 +18,14 @@ jobs:
           ref: main
 
       - name: Update Changelog
-        run: |
-          echo "      ## 1.1.0 - 2023-25-07" >> CHANGELOG.md
-          echo "      - add 'toStones'" >> CHANGELOG.md
-          echo "## 1.0.0 - 2023-25-07" >> CHANGELOG.md
-          echo "-initial release" >> CHANGELOG.md
+        uses: stefanzweifel/changelog-updater-action@v1
+        with:
+          latest-version: ${{ github.event.release.name }}
+          release-notes: ${{ github.event.release.body }}
 
       - name: Commit updated CHANGELOG
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add CHANGELOG.md
-          git commit -m "Update CHANGELOG"
-          git push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: Update CHANGELOG
+          file_pattern: CHANGELOG.md
