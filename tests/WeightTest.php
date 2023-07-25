@@ -7,5 +7,3 @@ it('can convert kilograms to pounds', function () {
 
     expect($pounds)->toBe(220.46);
 });
-
-
