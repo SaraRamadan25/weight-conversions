@@ -2,7 +2,8 @@ name: "Update Changelog"
 
 on:
   release:
-    types: [released]
+## 1.0.0 - 2023-25-07
+-initial release
 
 permissions:
   contents: write
